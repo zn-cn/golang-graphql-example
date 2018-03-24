@@ -64,6 +64,21 @@ func InsertUser(user *model.User) error {
 	return nil
 }
 
+// CheckUserValid db
+func CheckUserValid(id int, email string) (bool, error) {
+	var nickname string
+	err := DB.QueryRow(`
+		SELECT nickname
+		FROM user
+		WHERE id=?
+		AND email=?
+		`, id, email).Scan(&nickname)
+	if err != nil || nickname == "" {
+		return false, err
+	}
+	return true, nil
+}
+
 // GetUserByID db
 func GetUserByID(id int) (*model.User, error) {
 	var nickname, email string

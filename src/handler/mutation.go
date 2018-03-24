@@ -73,12 +73,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"removeUser": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"user_id": &graphql.ArgumentConfig{
 					Description: "User ID to remove",
 					Type:        graphql.NewNonNull(graphql.ID),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				userID, err := strconv.Atoi(p.Args["user_id"].(string))
 				if err != nil {
 					return nil, err
@@ -90,6 +100,10 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"follow": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"follower_id": &graphql.ArgumentConfig{
 					Description: "Follower ID",
 					Type:        graphql.NewNonNull(graphql.ID),
@@ -100,6 +114,12 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				followerID, followerErr := strconv.Atoi(p.Args["follower_id"].(string))
 				if followerErr != nil {
 					return nil, followerErr
@@ -115,6 +135,10 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"unfollow": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"follower_id": &graphql.ArgumentConfig{
 					Description: "UnFollower ID",
 					Type:        graphql.NewNonNull(graphql.ID),
@@ -125,6 +149,12 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				followerID, followerErr := strconv.Atoi(p.Args["follower_id"].(string))
 				if followerErr != nil {
 					return nil, followerErr
@@ -140,6 +170,10 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"createPost": &graphql.Field{
 			Type: PostType,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"user_id": &graphql.ArgumentConfig{
 					Description: "User ID of the people who creating a new post",
 					Type:        graphql.NewNonNull(graphql.ID),
@@ -154,6 +188,12 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				userID, userErr := strconv.Atoi(p.Args["user_id"].(string))
 				if userErr != nil {
 					return nil, userErr
@@ -172,12 +212,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"removePost": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"post_id": &graphql.ArgumentConfig{
 					Description: "Post ID to remove",
 					Type:        graphql.NewNonNull(graphql.ID),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				id, postErr := strconv.Atoi(p.Args["post_id"].(string))
 				if postErr != nil {
 					return nil, postErr
@@ -189,6 +239,10 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"updatePost": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"post_id": &graphql.ArgumentConfig{
 					Description: "Post ID of post to praise",
 					Type:        graphql.NewNonNull(graphql.ID),
@@ -203,6 +257,12 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				postID, postErr := strconv.Atoi(p.Args["post_id"].(string))
 				if postErr != nil {
 					return nil, postErr
@@ -216,12 +276,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"praisePost": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"post_id": &graphql.ArgumentConfig{
 					Description: "Post ID to praise",
 					Type:        graphql.NewNonNull(graphql.ID),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				postID, postErr := strconv.Atoi(p.Args["post_id"].(string))
 				if postErr != nil {
 					return nil, postErr
@@ -233,12 +303,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"unpraisePost": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"post_id": &graphql.ArgumentConfig{
 					Description: "Post ID to unpraise",
 					Type:        graphql.NewNonNull(graphql.ID),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				postID, postErr := strconv.Atoi(p.Args["post_id"].(string))
 				if postErr != nil {
 					return nil, postErr
@@ -250,6 +330,10 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"createComment": &graphql.Field{
 			Type: CommentType,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"user_id": &graphql.ArgumentConfig{
 					Description: "User id fo the people who creating the new comment",
 					Type:        graphql.NewNonNull(graphql.ID),
@@ -268,6 +352,12 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				userID, userErr := strconv.Atoi(p.Args["user_id"].(string))
 				if userErr != nil {
 					return nil, userErr
@@ -291,12 +381,22 @@ var MutationType = graphql.NewObject(graphql.ObjectConfig{
 		"removeComment": &graphql.Field{
 			Type: graphql.Boolean,
 			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Description: "Token to verify",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
 				"comment_id": &graphql.ArgumentConfig{
 					Description: "Comment ID to remove",
 					Type:        graphql.NewNonNull(graphql.ID),
 				},
 			},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+				// JWT token verify
+				token := p.Args["token"].(string)
+				if ok, checkErr := auth(token); !ok || checkErr != nil {
+					return nil, checkErr
+				}
+
 				commentID, commentErr := strconv.Atoi(p.Args["comment_id"].(string))
 				if commentErr != nil {
 					return nil, commentErr

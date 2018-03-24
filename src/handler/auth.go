@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"conf"
+	"db"
 	"model"
+	"util"
 
 	"github.com/graphql-go/graphql"
 )
@@ -30,3 +33,15 @@ var AuthType = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+func auth(token string) (bool, error) {
+	claims := util.CustomClaims{}
+	ok, err := util.ValidateJWTToken(token, conf.Config.JWT.Secret, &claims)
+	if !ok || err != nil {
+		return ok, err
+	}
+	if ok, checkErr := db.CheckUserValid(claims.UserID, claims.Email); !ok || checkErr != nil {
+		return false, checkErr
+	}
+	return true, nil
+}

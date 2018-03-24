@@ -26,15 +26,15 @@ func CreateJWTToken(secretKey, method string, claims jwt.Claims) (string, error)
 }
 
 // ValidateJWTToken util
-func ValidateJWTToken(tokenString, secretKey string, claims *jwt.Claims) (bool, *CustomClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{},
+func ValidateJWTToken(tokenString, secretKey string, claims *CustomClaims) (bool, error) {
+	token, err := jwt.ParseWithClaims(tokenString, claims,
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(secretKey), nil
 		})
 
 	if err != nil {
 		log.Fatal(err)
-		return false, nil, err
+		return false, err
 	}
-	return token.Valid, token.Claims.(*CustomClaims), err
+	return token.Valid, err
 }

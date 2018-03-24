@@ -48,4 +48,3 @@ type Mutation {
   praisePost(post_id: ID!, user_id: ID!): Boolean
   unpraisePost(post_id: ID!, user_id: ID!): Boolean
 }
-
