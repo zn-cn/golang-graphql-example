@@ -21,7 +21,7 @@ func Init() error {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, conf.Config.DB.Host, conf.Config.DB.Post, conf.Config.DB.DBName))
+	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, conf.Config.DB.DBName))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -34,7 +34,7 @@ func Init() error {
 }
 
 func prepare() error {
-	testDB, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, conf.Config.DB.Host, conf.Config.DB.Post, "test"))
+	testDB, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, "test"))
 	defer testDB.Close()
 	if err != nil {
 		log.Fatalln(err)

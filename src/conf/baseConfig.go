@@ -18,5 +18,4 @@ type db struct {
 	UserName string `toml:"user_name"`
 	PWD      string `toml:"pwd"`
 	Host     string `toml:"host"`
-	Post     string `toml:"post"`
 }

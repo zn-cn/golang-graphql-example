@@ -11,17 +11,20 @@ services:
             - TZ=Asia/Shanghai
             - APP_ADDR=:1323
             - GO_ENV=dev
-            - GOPATH=/app
+            - GOPATH=/go/src/app
         container_name: golang-graphql-blog-app
         depends_on:
             - mysql
-        entrypoint: /app/main
     mysql:
         image: mysql:5.7
         expose:
             - "3306"
         environment:
             - TZ=Asia/Shanghai
+            - MYSQL_ROOT_PASSWORD=mysql
+            - MYSQL_DATABASE=blog
+            - MYSQL_USER=tofar
+            - MYSQL_PASSWORD=mysql
         container_name: golang-graphql-blog-mysql
         volumes:
             - ./db:/var/lib/mysql

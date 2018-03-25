@@ -11,10 +11,9 @@ address = "127.0.0.1:1323"
 
 [db]
 db_name = "blog"
-user_name = "root"
-pwd  = ""
+user_name = "tofar"
+pwd  = "mysql"
 host = "mysql"
-port = "3306"
 
 
 [jwt]
