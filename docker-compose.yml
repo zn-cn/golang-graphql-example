@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+    learn_docker:
+        build: .
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+        ports:
+            - "1323:1323"
+        environment:
+            - TZ=Asia/Shanghai
+            - APP_ADDR=:1323
+            - GO_ENV=dev
+            - GOPATH=/app
+        container_name: golang-graphql-blog-app
+        depends_on:
+            - mysql
+        entrypoint: /app/main
+    mysql:
+        image: mysql:5.7
+        expose:
+            - "3306"
+        environment:
+            - TZ=Asia/Shanghai
+        container_name: golang-graphql-blog-mysql
+        volumes:
+            - ./db:/var/lib/mysql
+            - /etc/localtime:/etc/localtime:ro

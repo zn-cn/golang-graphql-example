@@ -13,11 +13,8 @@
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
 
-# config.toml
-*.toml
-
 # debug
 debug
 
 # pkg
-pkg
+pkg/
