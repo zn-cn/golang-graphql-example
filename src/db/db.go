@@ -1,3 +1,4 @@
+// Package db implements a interface for mysql
 package db
 
 import (

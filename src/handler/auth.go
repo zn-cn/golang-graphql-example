@@ -45,3 +45,46 @@ func auth(token string) (bool, error) {
 	}
 	return true, nil
 }
+
+var loginArgs = graphql.FieldConfigArgument{
+	"email": &graphql.ArgumentConfig{
+		Description: "User Email to login",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+	"pw": &graphql.ArgumentConfig{
+		Description: "User PW to login",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+}
+
+func login(p graphql.ResolveParams) (interface{}, error) {
+	email := p.Args["email"].(string)
+	pw := p.Args["pw"].(string)
+	auth := &model.Auth{
+		User: model.User{
+			Email: email,
+			PW:    pw,
+		},
+	}
+	if ok, err := loginCheck(auth); !ok {
+		return nil, err
+	}
+	return auth, nil
+}
+
+func loginCheck(auth *model.Auth) (bool, error) {
+	if ok, err := db.Login(&(auth.User)); !ok {
+		return ok, err
+	}
+
+	customClaims := util.CustomClaims{
+		UserID: auth.User.ID,
+		Email:  auth.User.Email,
+	}
+	var err error
+	auth.Token, err = util.CreateJWTToken(conf.Config.JWT.Secret, conf.Config.JWT.SignMethod, customClaims)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}

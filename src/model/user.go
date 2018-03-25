@@ -1,3 +1,4 @@
+// Package model implements a model for projects
 package model
 
 import (

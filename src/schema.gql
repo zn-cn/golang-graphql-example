@@ -37,14 +37,14 @@ type Query {
 type Mutation {
   login(email: String!, pw: String!): Auth
   createUser(nickname: String!, email: String!, pw: String!): User
-  removeUser(user_id: ID!): Boolean
-  follow(follower_id: ID!, followee_id: ID!): Boolean
-  unfollow(follower_id: ID!, followee_id: ID!): Boolean
-  createPost(user_id: ID!, title: String!, body: String!): Post
-  removePost(post_id: ID!): Boolean
-  updatePost(post_id: ID!, title: String, body: String)：Boolean
-  createComment(user_id: ID!, post_id: ID!, title: String!, body: String!): Comment
-  removeComment(comment_id: ID!): Boolean
-  praisePost(post_id: ID!, user_id: ID!): Boolean
-  unpraisePost(post_id: ID!, user_id: ID!): Boolean
+  removeUser(token: String!, user_id: ID!): Boolean
+  follow(token: String!, follower_id: ID!, followee_id: ID!): Boolean
+  unfollow(token: String!, follower_id: ID!, followee_id: ID!): Boolean
+  createPost(token: String!, user_id: ID!, title: String!, body: String!): Post
+  removePost(token: String!, post_id: ID!): Boolean
+  updatePost(token: String!, post_id: ID!, title: String, body: String)：Boolean
+  createComment(token: String!, user_id: ID!, post_id: ID!, title: String!, body: String!): Comment
+  removeComment(token: String!, comment_id: ID!): Boolean
+  praisePost(token: String!, post_id: ID!, user_id: ID!): Boolean
+  unpraisePost(token: String!, post_id: ID!, user_id: ID!): Boolean
 }

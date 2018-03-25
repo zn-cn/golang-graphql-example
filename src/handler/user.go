@@ -1,11 +1,9 @@
 package handler
 
 import (
-	"conf"
 	"db"
 	"model"
 	"strconv"
-	"util"
 
 	"github.com/graphql-go/graphql"
 )
@@ -149,19 +147,73 @@ func init() {
 	})
 }
 
-func login(auth *model.Auth) (bool, error) {
-	if ok, err := db.Login(&(auth.User)); !ok {
-		return ok, err
+var userArgs = graphql.FieldConfigArgument{
+	"user_id": &graphql.ArgumentConfig{
+		Description: "User ID",
+		Type:        graphql.NewNonNull(graphql.ID),
+	},
+}
+
+func getUserByID(p graphql.ResolveParams) (interface{}, error) {
+	userIDStr := p.Args["user_id"].(string)
+	userID, err := strconv.Atoi(userIDStr)
+	if err != nil {
+		return nil, err
+	}
+	return db.GetUserByID(userID)
+}
+
+var createUserArgs = graphql.FieldConfigArgument{
+	"nickname": &graphql.ArgumentConfig{
+		Description: "User NickName to create",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+	"email": &graphql.ArgumentConfig{
+		Description: "User Email to create",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+	"pw": &graphql.ArgumentConfig{
+		Description: "User PW to create",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+}
+
+func createUser(p graphql.ResolveParams) (interface{}, error) {
+	nickname := p.Args["nickname"].(string)
+	email := p.Args["email"].(string)
+	pw := p.Args["pw"].(string)
+
+	user := &model.User{
+		NickName: nickname,
+		Email:    email,
+		PW:       pw,
+	}
+	err := db.InsertUser(user)
+	return user, err
+}
+
+var removeUserArgs = graphql.FieldConfigArgument{
+	"token": &graphql.ArgumentConfig{
+		Description: "Token to verify",
+		Type:        graphql.NewNonNull(graphql.String),
+	},
+	"user_id": &graphql.ArgumentConfig{
+		Description: "User ID to remove",
+		Type:        graphql.NewNonNull(graphql.ID),
+	},
+}
+
+func removeUser(p graphql.ResolveParams) (interface{}, error) {
+	// JWT token verify
+	token := p.Args["token"].(string)
+	if ok, checkErr := auth(token); !ok || checkErr != nil {
+		return nil, checkErr
 	}
 
-	customClaims := util.CustomClaims{
-		UserID: auth.User.ID,
-		Email:  auth.User.Email,
-	}
-	var err error
-	auth.Token, err = util.CreateJWTToken(conf.Config.JWT.Secret, conf.Config.JWT.SignMethod, customClaims)
+	userID, err := strconv.Atoi(p.Args["user_id"].(string))
 	if err != nil {
-		return false, err
+		return nil, err
 	}
-	return true, nil
+	err = db.RemoveUserByID(userID)
+	return (err == nil), err
 }

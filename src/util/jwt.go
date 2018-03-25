@@ -1,3 +1,4 @@
+// Package util implements some simple tools function for the project
 package util
 
 import (
