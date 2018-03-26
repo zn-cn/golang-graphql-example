@@ -10,7 +10,7 @@ type FieldArg struct {
 	Type        graphql.Type
 }
 
-// GetGraphqlArgs util
+// GetGraphqlArgs util （已弃用，感觉写了也没变简洁）
 func GetGraphqlArgs(args map[string]FieldArg) graphql.FieldConfigArgument {
 	var fieldConfigArg = graphql.FieldConfigArgument{}
 	for k, v := range args {

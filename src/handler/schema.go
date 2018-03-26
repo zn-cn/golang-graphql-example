@@ -8,7 +8,7 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-// Handler handler
+// Handler handler (已弃用,使用了官方自带的handler库)
 func Handler(schema graphql.Schema) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		query, err := ioutil.ReadAll(r.Body)
