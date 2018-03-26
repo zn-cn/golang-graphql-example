@@ -127,7 +127,13 @@ INSERT INTO `follow` (follower_id, followee_id, create_date ) VALUES (?, ?, ?);
 
 ##### 测试命令：
 
+这里有两版：
+
+第一版是用graphiql做的，有可视化界面，但是传输的数据只能作为url参数
+
 在网站中输入 http://localhost:1323/graphql，可查看API文档可视化界面
+
+第二版使用原生的，可用下列目录进行测试：
 
 ```shell
 $ curl -X POST http://localhost:1323/graphql -d 'mutation{createUser(nickname:"example",email:"example@163.com",pw:"1234567879"){nickname, email}}'

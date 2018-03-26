@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/graphql-go/graphql"
-	gh "github.com/graphql-go/handler"
+	// gh "github.com/graphql-go/handler"
 )
 
 func main() {
@@ -27,13 +27,13 @@ func main() {
 		Mutation: handler.MutationType,
 	})
 
-	h := gh.New(&gh.Config{
-		Schema:   &schema,
-		Pretty:   true,
-		GraphiQL: true,
-	})
+	// h := gh.New(&gh.Config{
+	// 	Schema:   &schema,
+	// 	Pretty:   true,
+	// 	GraphiQL: true,
+	// })
 
-	// http.Handle("/graphql", handler.Handler(schema))
-	http.Handle("/graphql", h)
+	http.Handle("/graphql", handler.Handler(schema))
+	// http.Handle("/graphql", h)
 	log.Fatal(http.ListenAndServe(":1323", nil))
 }

@@ -17,11 +17,12 @@ var DB *sql.DB
 // Init db
 func Init() error {
 	// create database
-	err := prepare()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(localhost:3306)/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, conf.Config.DB.DBName))
+	// err := prepare()
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
+	var err error
+	DB, err = sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", conf.Config.DB.UserName, conf.Config.DB.PWD, conf.Config.DB.Host, conf.Config.DB.Port, conf.Config.DB.DBName))
 	if err != nil {
 		log.Fatal(err)
 	}
