@@ -68,7 +68,7 @@ type Mutation {
 
 ```mysql
 -- create database
-CREATE DATABASE IF NOT EXISTS `blog_test`;
+CREATE DATABASE IF NOT EXISTS `blog`;
 
 -- create table
 CREATE TABLE IF NOT EXISTS `user`(
@@ -129,30 +129,30 @@ INSERT INTO `follow` (follower_id, followee_id, create_date ) VALUES (?, ?, ?);
 
 ##### 测试命令：
 
-这里有两版：
+可视化界面：
 
-第一版是用graphiql做的，有可视化界面，但是传输的数据只能作为url参数
+在网站中输入 http://localhost:1323/graphiql， 可查看API文档可视化界面
 
-在网站中输入 http://localhost:1323/graphql， 可查看API文档可视化界面
+![img](https://www.jishuzaxuepu.group/image/jpggraphiql.png) 
 
-第二版使用原生的，可用下列目录进行测试：
+第二版使用原生的，可用下列命令进行测试 或者自行使用postman：
 
 ```shell
 $ curl -X POST http://localhost:1323/graphql -d 'mutation{createUser(nickname:"example",email:"example@163.com",pw:"1234567879"){nickname, email}}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{removeUser(user_id:7)}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{removeUser(user_id:7, token: "")}'
 $ curl -X POST http://localhost:1323/graphql -d 'mutation{login(email:"abc@163.com",pw:"1234567879"){token, user{nickname}}}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{follow(follower_id:8, followee_id:9)}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{unfollow(follower_id:8, followee_id:9)}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{createPost(user_id:8, title:"hello2", body:"hello world2"){id,title,body,praise_num,comment_num,create_date}}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{removePost(post_id:2)}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{updatePost(post_id:1, title:"hello", body:"hello world")}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{unpraisePost(post_id:1)}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{praisePost(post_id:1)}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{createComment(user_id:8, post_id:1, title:"I like it", body:"I like it"){id,title, body, create_date}}'
-$ curl -X POST http://localhost:1323/graphql -d 'mutation{removeComment(comment_id:2)}'
-$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){email}}'
-$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){followers{id, nickname, email}}}'
-$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){followers{id, nickname, email}, followerees{nickname, email}}}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{follow(follower_id:8, followee_id:9, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{unfollow(follower_id:8, followee_id:9, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{createPost(user_id:8, title:"hello2", body:"hello world2", token: ""){id,title,body,praise_num,comment_num,create_date}}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{removePost(post_id:2, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{updatePost(post_id:1, title:"hello", body:"hello world", token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{unpraisePost(post_id:1, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{praisePost(post_id:1, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{createComment(user_id:8, post_id:1, title:"I like it", body:"I like it", token: ""){id,title, body, create_date}}'
+$ curl -X POST http://localhost:1323/graphql -d 'mutation{removeComment(comment_id:2, token: "")}'
+$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13, token: ""){email}}'
+$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13, token: ""){followers{id, nickname, email}}}'
+$ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13, token: ""){followers{id, nickname, email}, followerees{nickname, email}}}'
 ...
 ...
 ```
