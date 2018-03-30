@@ -4,6 +4,8 @@
 
 只是用来玩一玩graphql的一个blog
 
+关于更多Graphql和REST的一些想法，请见[Graphql 学习与REST比较](https://juejin.im/post/5ab7c6c06fb9a028c22abbb5) 
+
 涉及：`golang` ,  `jwt` , `graphql-go` , `mysql`  
 
 ##### graphql文档:
@@ -131,7 +133,7 @@ INSERT INTO `follow` (follower_id, followee_id, create_date ) VALUES (?, ?, ?);
 
 第一版是用graphiql做的，有可视化界面，但是传输的数据只能作为url参数
 
-在网站中输入 http://localhost:1323/graphql，可查看API文档可视化界面
+在网站中输入 http://localhost:1323/graphql， 可查看API文档可视化界面
 
 第二版使用原生的，可用下列目录进行测试：
 
@@ -151,6 +153,7 @@ $ curl -X POST http://localhost:1323/graphql -d 'mutation{removeComment(comment_
 $ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){email}}'
 $ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){followers{id, nickname, email}}}'
 $ curl -X POST http://localhost:1323/graphql -d 'query{user(user_id:13){followers{id, nickname, email}, followerees{nickname, email}}}'
+...
 ...
 ```
 
